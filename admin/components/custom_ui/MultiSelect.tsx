@@ -33,22 +33,23 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
     const [inputValue, setInputValue] = useState("");
     const [open, setOpen] = useState(false);
 
-    /* let selected: CollectionType[];
 
-     if (value.length === 0) {
-         selected = [];
-     } else {
-         selected = value.map((id) =>
-             collections.find((collection) => collection._id === id)
-         ) as CollectionType[];
-     }*/
+    let selected: CollectionType[];
 
-     /*const selectables = collections.filter((collection) => !selected.includes(collection));*/
+    if (value.length === 0) {
+        selected = [];
+    } else {
+        selected = value.map((id) =>
+            collections.find((collection) => collection._id === id)
+        ) as CollectionType[];
+    }
+
+    const selectables = collections.filter((collection) => !selected.includes(collection));
 
     return (
         <Command className="overflow-visible bg-white">
             <div className="flex gap-1 flex-wrap border rounded-md">
-                {/* {selected.map((collection) => (
+                {selected.map((collection) => (
                     <Badge key={collection._id}>
                         {collection.title}
                         <button type="button" className="ml-1 hover:text-red-1"
@@ -56,7 +57,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                             <X className="h-3 w-3"/>
                         </button>
                     </Badge>
-                ))}*/}
+                ))}
                 <CommandInput
                     placeholder={placeholder}
                     value={inputValue}
@@ -69,9 +70,10 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
             <div className="relative mt-2">
                 {open && (
                     <CommandGroup className="absolute w-full z-10 top-0 overflow-auto border rounded-md shadow-md">
-                        {collections.map((collection) => (
+                        {selectables.map((collection) => (
                             <CommandList key={collection._id}>
                                 <CommandItem
+                                    key={collection._id}
                                     onMouseDown={(e) => e.preventDefault()}
                                     onSelect={() => {
                                         onChange(collection._id);

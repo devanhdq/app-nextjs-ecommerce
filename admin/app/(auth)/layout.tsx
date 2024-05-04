@@ -3,12 +3,13 @@ import {Inter} from "next/font/google";
 import "../globals.css";
 
 import {ClerkProvider} from "@clerk/nextjs";
+import React from "react";
 
 const inter = Inter({subsets: ["latin"]});
 
 export const metadata: Metadata = {
-    title: "Borcelle - Admin Auth",
-    description: "Admin dashboard to manage Borcelle's data",
+    title: "Clothes - Admin Auth",
+    description: "Admin dashboard to manage clothes",
 };
 
 export default function RootLayout({

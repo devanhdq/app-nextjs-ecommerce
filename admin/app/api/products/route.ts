@@ -2,8 +2,26 @@ import {NextRequest, NextResponse} from "next/server";
 import {auth} from "@clerk/nextjs/server";
 import {connectDB} from "@/lib/mongoDB";
 import Product from "@/lib/models/Product";
+import Collection from "@/lib/models/Collection";
 
-// GET
+//GET
+export const GET = async () => {
+    try {
+        await connectDB();
+        const products = await Product.find()
+            .sort({createdAt: "desc"})
+            .populate({
+                path: 'collections',
+                model: Collection
+            });
+        return NextResponse.json(products, {status: 200});
+    } catch (e) {
+        console.log("[Product_GET] ", e);
+        return new NextResponse("Internal Server Error", {status: 500});
+    }
+};
+
+//POST
 export const POST = async (request: NextRequest) => {
     try {
         const {userId} = auth();
@@ -45,3 +63,4 @@ export const POST = async (request: NextRequest) => {
         return new NextResponse("Internal Server Error", {status: 500});
     }
 }
+
